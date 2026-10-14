@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T.E. Design｜質感落地頁設計工作室</title>
+<meta name="description" content="T.E. Design 個人工作室，協助客戶創立質感落地頁，讓高品質的產品得到應有的銷量。">
+<style>
+  :root{
+    --cream:#FBF4E4;
+    --cream-deep:#F3E7CC;
+    --cream-soft:#FFFBF1;
+    --teal:#1F4E52;
+    --teal-dark:#143538;
+    --teal-light:#2E6A6F;
+    --clay:#C9743F;
+    --ink:#24312F;
+    --muted:#6B746F;
+    --radius:24px;
+    --shadow:0 20px 50px -20px rgba(31,78,82,.35);
+    --ease:cubic-bezier(.22,.8,.24,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .serif{font-family:"Noto Serif TC","Songti TC","PMingLiU",Georgia,serif}
+  .wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+
+  /* Nav */
+  header{
+    position:fixed;inset:0 0 auto 0;z-index:50;
+    transition:background .4s var(--ease),box-shadow .4s var(--ease),padding .4s var(--ease);
+    padding:20px 0;
+  }
+  header.scrolled{
+    background:rgba(251,244,228,.88);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    box-shadow:0 1px 0 rgba(31,78,82,.1);
+    padding:12px 0;
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .logo{font-weight:700;font-size:1.15rem;letter-spacing:.08em;color:var(--teal);text-decoration:none}
+  .logo span{color:var(--clay)}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-links a.link{color:var(--ink);text-decoration:none;font-size:.95rem;position:relative}
+  .nav-links a.link::after{
+    content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:var(--clay);
+    transition:width .35s var(--ease);
+  }
+  .nav-links a.link:hover::after{width:100%}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--teal);color:var(--cream-soft);
+    padding:14px 30px;border-radius:999px;border:0;
+    font-size:1rem;font-weight:500;letter-spacing:.1em;text-decoration:none;cursor:pointer;
+    box-shadow:0 10px 24px -10px rgba(31,78,82,.6);
+    transition:transform .35s var(--ease),background .35s var(--ease),box-shadow .35s var(--ease);
+  }
+  .btn:hover{background:var(--teal-dark);transform:translateY(-3px);box-shadow:0 16px 30px -12px rgba(31,78,82,.7)}
+  .btn:active{transform:translateY(-1px)}
+  .btn .arrow{transition:transform .35s var(--ease)}
+  .btn:hover .arrow{transform:translateX(5px)}
+  .btn.small{padding:9px 22px;font-size:.9rem}
+  .btn.light{background:var(--cream);color:var(--teal-dark);box-shadow:0 12px 28px -12px rgba(0,0,0,.4)}
+  .btn.light:hover{background:#fff}
+
+  /* Hero */
+  .hero{
+    min-height:100svh;display:flex;align-items:center;
+    padding:130px 0 80px;position:relative;
+    background:
+      radial-gradient(circle at 85% 15%,rgba(201,116,63,.14),transparent 45%),
+      radial-gradient(circle at 5% 90%,rgba(31,78,82,.10),transparent 45%),
+      var(--cream);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:.85rem;letter-spacing:.25em;color:var(--clay);font-weight:500;margin-bottom:22px;
+  }
+  .eyebrow::before{content:"";width:36px;height:2px;background:var(--clay)}
+  h1{
+    font-size:clamp(2.3rem,5.6vw,4.2rem);
+    line-height:1.28;color:var(--teal);font-weight:700;letter-spacing:.02em;
+  }
+  h1 em{font-style:normal;color:var(--clay);position:relative;white-space:nowrap}
+  h1 em::after{
+    content:"";position:absolute;left:0;right:0;bottom:.08em;height:.22em;
+    background:rgba(201,116,63,.22);z-index:-1;border-radius:4px;
+  }
+  .hero p.lead{margin:26px 0 38px;max-width:30em;color:var(--muted);font-size:1.08rem}
+  .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:22px}
+  .hero-actions .ghost{color:var(--teal);text-decoration:none;font-weight:500;border-bottom:2px solid transparent;transition:border-color .3s}
+  .hero-actions .ghost:hover{border-color:var(--teal)}
+
+  /* Hero visual: layered mock landing page */
+  .visual{position:relative;aspect-ratio:1/1.02;max-width:460px;width:100%;margin-inline:auto}
+  .blob{
+    position:absolute;inset:6% 4% 4% 8%;border-radius:42% 58% 55% 45%/48% 42% 58% 52%;
+    background:var(--cream-deep);animation:morph 14s ease-in-out infinite;
+  }
+  @keyframes morph{
+    0%,100%{border-radius:42% 58% 55% 45%/48% 42% 58% 52%}
+    50%{border-radius:58% 42% 45% 55%/55% 58% 42% 45%}
+  }
+  .mock{
+    position:absolute;left:10%;top:12%;width:76%;
+    background:var(--cream-soft);border-radius:20px;box-shadow:var(--shadow);
+    padding:16px 18px 22px;animation:float 7s ease-in-out infinite;
+  }
+  .mock .dots{display:flex;gap:6px;margin-bottom:16px}
+  .mock .dots i{width:9px;height:9px;border-radius:50%;background:var(--cream-deep)}
+  .mock .dots i:first-child{background:var(--clay)}
+  .mock .bar{height:10px;border-radius:6px;background:var(--cream-deep);margin-bottom:10px}
+  .mock .bar.t{height:18px;width:70%;background:var(--teal)}
+  .mock .bar.s{width:90%}
+  .mock .bar.m{width:60%}
+  .mock .img{
+    height:96px;border-radius:14px;margin:16px 0;
+    background:linear-gradient(135deg,var(--teal) 0%,var(--teal-light) 55%,var(--clay) 130%);
+  }
+  .mock .pill{display:inline-block;width:96px;height:28px;border-radius:999px;background:var(--clay)}
+  .chip{
+    position:absolute;background:#fff;border-radius:16px;padding:12px 18px;
+    box-shadow:var(--shadow);font-size:.85rem;font-weight:500;color:var(--teal);
+    display:flex;align-items:center;gap:8px;
+  }
+  .chip b{color:var(--clay);font-size:1.1rem}
+  .chip.a{right:0;top:6%;animation:float 6s ease-in-out -2s infinite}
+  .chip.b{left:0;bottom:12%;animation:float 8s ease-in-out -4s infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+  .scroll-hint{
+    position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+    width:24px;height:40px;border:2px solid rgba(31,78,82,.35);border-radius:14px;
+  }
+  .scroll-hint::after{
+    content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;
+    background:var(--teal);border-radius:2px;animation:wheel 1.8s ease-in-out infinite;
+  }
+  @keyframes wheel{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
+
+  /* Sections */
+  section{padding:120px 0}
+  .tag{font-size:.85rem;letter-spacing:.25em;color:var(--clay);font-weight:500;margin-bottom:14px;display:block}
+  h2{font-size:clamp(1.8rem,3.6vw,2.7rem);color:var(--teal);line-height:1.4;font-weight:700}
+
+  /* About */
+  .about{background:var(--cream-soft)}
+  .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:center}
+  .about-card{
+    background:var(--teal);color:var(--cream);border-radius:var(--radius);
+    padding:48px 40px;position:relative;overflow:hidden;box-shadow:var(--shadow);
+  }
+  .about-card::before{
+    content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;
+    border-radius:50%;background:rgba(251,244,228,.08);
+  }
+  .about-card::after{
+    content:"";position:absolute;left:-40px;bottom:-70px;width:160px;height:160px;
+    border-radius:50%;background:rgba(201,116,63,.35);
+  }
+  .about-card .mono{font-size:3.4rem;font-weight:700;letter-spacing:.06em;line-height:1.1;position:relative;z-index:1}
+  .about-card .mono span{color:#E9A878}
+  .about-card p{margin-top:18px;opacity:.85;position:relative;z-index:1;letter-spacing:.08em}
+  .about-text p{color:var(--muted);font-size:1.08rem;margin-top:24px}
+  .about-text p strong{color:var(--teal);font-weight:600}
+  .quote{
+    margin-top:32px;padding:6px 0 6px 22px;border-left:3px solid var(--clay);
+    color:var(--teal);font-size:1.12rem;
+  }
+
+  /* Highlights */
+  .head-center{text-align:center;margin-bottom:64px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .card{
+    background:var(--cream-soft);border-radius:var(--radius);padding:44px 34px;
+    border:1px solid rgba(31,78,82,.08);
+    transition:transform .5s var(--ease),box-shadow .5s var(--ease),background .5s var(--ease);
+  }
+  .card:hover{transform:translateY(-10px);box-shadow:var(--shadow);background:#fff}
+  .card .num{font-size:.9rem;letter-spacing:.2em;color:var(--clay);font-weight:500}
+  .icon{
+    width:64px;height:64px;border-radius:20px;background:var(--teal);
+    display:grid;place-items:center;margin:20px 0 26px;
+    transition:transform .5s var(--ease),background .5s var(--ease);
+  }
+  .card:hover .icon{transform:rotate(-8deg) scale(1.06);background:var(--clay)}
+  .icon svg{width:30px;height:30px;stroke:var(--cream);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:1.4rem;color:var(--teal);margin-bottom:12px}
+  .card p{color:var(--muted);font-size:1rem}
+
+  /* CTA */
+  .cta{padding:0 0 120px}
+  .cta-box{
+    background:var(--teal);color:var(--cream);border-radius:36px;
+    padding:88px 40px;text-align:center;position:relative;overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .cta-box::before,.cta-box::after{content:"";position:absolute;border-radius:50%}
+  .cta-box::before{width:340px;height:340px;right:-90px;top:-130px;background:rgba(251,244,228,.07)}
+  .cta-box::after{width:260px;height:260px;left:-80px;bottom:-120px;background:rgba(201,116,63,.38)}
+  .cta-box > *{position:relative;z-index:1}
+  .cta-box h2{color:var(--cream);margin-bottom:16px}
+  .cta-box p{opacity:.82;margin-bottom:38px;max-width:32em;margin-inline:auto}
+
+  footer{padding:36px 0 48px;text-align:center;color:var(--muted);font-size:.9rem;border-top:1px solid rgba(31,78,82,.1)}
+  footer b{color:var(--teal);letter-spacing:.08em}
+
+  /* Reveal on scroll */
+  .reveal{
+    opacity:0;transform:translateY(36px);
+    transition:opacity .9s var(--ease),transform .9s var(--ease);
+    transition-delay:var(--d,0s);
+    will-change:opacity,transform;
+  }
+  .reveal.in{opacity:1;transform:none}
+  .reveal.left{transform:translateX(-40px)}
+  .reveal.right{transform:translateX(40px)}
+  .reveal.left.in,.reveal.right.in{transform:none}
+
+  /* Responsive */
+  @media (max-width:900px){
+    section{padding:84px 0}
+    .hero{padding-top:110px}
+    .hero-grid,.about-grid{grid-template-columns:1fr;gap:48px}
+    .visual{max-width:360px;order:-1;margin-bottom:-8px}
+    .cards{grid-template-columns:1fr;gap:20px}
+    .head-center{margin-bottom:44px}
+    .scroll-hint{display:none}
+  }
+  @media (max-width:560px){
+    .nav-links a.link{display:none}
+    .hero{padding-bottom:60px}
+    .hero-actions{gap:16px}
+    .btn{padding:14px 26px}
+    .about-card{padding:38px 28px}
+    .about-card .mono{font-size:2.8rem}
+    .cta-box{padding:64px 24px;border-radius:28px}
+    .chip{font-size:.78rem;padding:9px 13px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition-duration:.01ms!important}
+    .reveal{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#hero">T.E.<span>.</span>Design</a>
+    <nav class="nav-links">
+      <a class="link" href="#about">關於</a>
+      <a class="link" href="#highlights">亮點</a>
+      <a class="btn small" href="#contact">聯絡我</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow reveal">T.E. DESIGN STUDIO</span>
+        <h1 class="serif reveal" style="--d:.1s">讓好設計，<br>替好產品<em>開口說話</em></h1>
+        <p class="lead reveal" style="--d:.2s">好產品值得被看見。我們用溫度與質感，把您的價值，化成讓人願意停留、願意行動的一頁。</p>
+        <div class="hero-actions reveal" style="--d:.3s">
+          <a class="btn" href="#contact">聯絡我 <span class="arrow">→</span></a>
+          <a class="ghost" href="#about">了解工作室</a>
+        </div>
+      </div>
+      <div class="visual reveal right" style="--d:.25s" aria-hidden="true">
+        <div class="blob"></div>
+        <div class="mock">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="bar t"></div>
+          <div class="bar s"></div>
+          <div class="bar m"></div>
+          <div class="img"></div>
+          <span class="pill"></span>
+        </div>
+        <div class="chip a"><b>↑</b> 轉換率提升</div>
+        <div class="chip b"><b>✦</b> 質感落地頁</div>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"></div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-card reveal left">
+        <div class="mono serif">T.E.<span>.</span><br>Design</div>
+        <p>個人設計工作室</p>
+      </div>
+      <div class="about-text">
+        <span class="tag reveal">ABOUT</span>
+        <h2 class="serif reveal" style="--d:.1s">關於我們</h2>
+        <p class="reveal" style="--d:.2s"><strong>T.E. Design 是一間個人工作室</strong>，主旨在協助客戶創立質感落地頁，讓更多人能接觸到您的產品，讓您高品質的產品得到應有的銷量。</p>
+        <div class="quote serif reveal" style="--d:.3s">好產品不該被埋沒，<br>它值得一個配得上它的舞台。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights -->
+  <section id="highlights">
+    <div class="wrap">
+      <div class="head-center">
+        <span class="tag reveal">HIGHLIGHTS</span>
+        <h2 class="serif reveal" style="--d:.1s">合作亮點</h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal" style="--d:.05s">
+          <span class="num">01</span>
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11.5h7M8.5 14.5h4"/></svg>
+          </div>
+          <h3 class="serif">彈性溝通</h3>
+          <p>依照您的節奏與習慣調整溝通方式，需求隨時可以討論，修改也不必顧慮。</p>
+        </article>
+        <article class="card reveal" style="--d:.18s">
+          <span class="num">02</span>
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M14.8 9.2c-.6-.8-1.6-1.2-2.8-1.2-1.7 0-2.8.8-2.8 2s1 1.7 2.8 2 2.8.8 2.8 2-1.1 2-2.8 2c-1.2 0-2.3-.4-2.9-1.3"/></svg>
+          </div>
+          <h3 class="serif">價格透明</h3>
+          <p>報價清楚、項目明列，開始之前就知道所有花費，後續不會有隱藏費用。</p>
+        </article>
+        <article class="card reveal" style="--d:.31s">
+          <span class="num">03</span>
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>
+          </div>
+          <h3 class="serif">目標明確</h3>
+          <p>每一頁都從您的產品與受眾出發，每個設計決策都為了引導訪客採取行動。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <div class="cta-box reveal">
+        <h2 class="serif">準備好讓產品被更多人看見了嗎？</h2>
+        <p>告訴我您的產品與想法，我們從一次輕鬆的對話開始。</p>
+        <!-- 請將下方信箱替換為您的實際聯絡信箱 -->
+        <a class="btn light" href="mailto:hello@tedesign.example">聯絡我 <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year">2026</span> <b>T.E. Design</b>. All rights reserved.</div>
+</footer>
+
+<script>
+  (function(){
+    var header=document.getElementById('top');
+    var ticking=false;
+    function onScroll(){
+      if(ticking)return;
+      ticking=true;
+      requestAnimationFrame(function(){
+        header.classList.toggle('scrolled',window.scrollY>20);
+        ticking=false;
+      });
+    }
+    window.addEventListener('scroll',onScroll,{passive:true});
+    onScroll();
+
+    document.getElementById('year').textContent=new Date().getFullYear();
+
+    var items=document.querySelectorAll('.reveal');
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+        });
+      },{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+      items.forEach(function(el){io.observe(el);});
+    }else{
+      items.forEach(function(el){el.classList.add('in');});
+    }
+  })();
+</script>
+</body>
+</html>
